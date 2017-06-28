@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>管理员操作日志</title>
+      <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/color.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/demo/demo.css">
+    <script type="text/javascript" src="../xhAdmin/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../xhAdmin/js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+    <div id="toolbar-adminUserOptlog">
+         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="adminUserOptlogSearch()">查询</a>
+    </div>
+
+    <table id="adminUserOptlog-table" class="easyui-datagrid" data-options="fit:true,border:false,url:'../xhAdminUserOptlog/all',method:'get'" style="width:auto;height:100%" toolbar="#toolbar-adminUserOptlog" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true" pageSize="20">
+        <thead>
+            <tr>
+              	<th field="bean_name" width="10%" align="center">操作路由</th>
+              	<th field="create_time" width="10%" align="center">操作时间</th>
+                <th field="method_name" width="10%" align="center">方法名称</th>
+                <th field="opt_name" width="10%" align="center">操作名称</th>
+                <th field="opt_obj_id" width="10%" align="center">操作对象Id</th>
+                <th field="opt_style" width="10%" align="center">操作类别</th>
+                <th field="remote_addr" width="10%" align="center">操作IP地址</th>
+                <th field="user_name" width="10%" align="center">用户名</th>
+                <th field="action_name" width="10%" align="center">操作行为处理路径</th>
+                <th field="request_time" width="10%" align="center">请求时间（单位：毫秒）</th>
+                <th field="session_id" width="10%" align="center">session_id</th>
+                <th field="uri" width="10%" align="center">操作完全路径</th>
+            </tr>
+        </thead>
+    </table>
+   
+    <div id="dlg-adminUserOptlogReadonly" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-adminUserOptlogReadonly-btn" align="center" data-options="modal:true">
+        <form id="fm-adminUserOptlogReadonly" method="post" novalidate>
+            <table class="pattern" border="0">
+			  <tr>
+				<th width="18%">操作路由：</th>
+				<td width="32%"><input type="text" id="bean_name" name="bean_name" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">操作时间：</th>
+				<td width="32%"><input type="text" id="create_time" name="create_time" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				<th width="18%">方法名称：</th>
+				<td width="32%"><input type="text" id="method_name" name="method_name" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">操作名称：</th>
+				<td width="32%"><input type="text" id="opt_name" name="opt_name" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				<th width="18%">操作对象Id：</th>
+				<td width="32%"><input type="text" id="opt_obj_id" name="opt_obj_id" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">操作类别：</th>
+				<td width="32%"><input type="text" id="opt_style" name="opt_style" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				<th width="18%">操作IP地址：</th>
+				<td width="32%"><input type="text" id="remote_addr" name="remote_addr" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">用户名：</th>
+				<td width="32%"><input type="text" id="user_name" name="user_name" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				<th width="18%">操作行为处理路径：</th>
+				<td width="32%"><input type="text" id="action_name" name="action_name" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">请求时间（单位：毫秒）：</th>
+				<td width="32%"><input type="text" id="request_time" name="request_time" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				<th width="18%">session_id：</th>
+				<td width="32%"><input type="text" id="session_id" name="session_id" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">操作完全路径：</th>
+				<td width="32%"><input type="text" id="uri" name="uri" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+            <input type="hidden" name="id" />
+			</table>
+        </form>
+    </div>
+    <div id="dlg-adminUserOptlogReadonly-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-adminUserOptlogReadonly').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    
+    
+    <div id="dlg-adminUserOptlogSearch" class="easyui-dialog" style="width:700px;height:auto;padding:1px 1px" closed="true" buttons="#dlg-adminUserOptlogSearch-btn" align="center" data-options="modal:true">
+        <form id="fm-adminUserOptlogSearch" method="post" novalidate>
+            <table class="pattern" border="0" cellpadding="5" cellspacing="0">
+                <tr>
+                    <th width="18%">用户名：</th>
+                    <td width="72%" colspan="3">
+                        <input type="text" id="userName" name="userName" class="easyui-textbox" style="width:100%" />
+                    </td>
+                </tr>
+               <!--  <tr>
+                    <th>开始时间：</th>
+                    <td colspan="3">
+                      
+                        <input id="startTime" name="startTime" class="easyui-datetimebox" style="width:100%">
+                    </td>
+                </tr>
+                <tr>
+                    <th>结束时间：</th>
+                    <td colspan="3">
+                    <input id="stopTime" name="stopTime" class="easyui-datetimebox"  style="width:100%">
+                    </td>
+                </tr>
+                  <tr>
+                    <th>内容：</th>
+                    <td colspan="3">
+                        <input type="text" id="textcontent" name="textcontent" class="easyui-textbox" style="width:100%" />
+                    </td>
+                </tr> -->
+            </table>
+        </form>
+    </div>
+    
+      <div id="dlg-adminUserOptlogSearch-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="adminUserOptlogSearchSave()" style="width:90px">查询</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-adminUserOptlogSearch').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    
+    <script type="text/javascript">
+    $(document).ready(function() {
+        /*$.post('/jg/checkScope', {
+            sessionName: 'f9'
+        }, function(data) {
+            if (data == false) {
+                $('#toolbar-adminUserOptlog #adminUserOptlogAddBtn').hide();
+                $('#toolbar-adminUserOptlog #adminUserOptlogEditBtn').hide();
+                $('#toolbar-adminUserOptlog #adminUserOptlogDestroyBtn').hide();
+            }
+        }, 'json');*/
+
+        $("#adminUserOptlog-table").datagrid({
+            //双击事件  
+            onDblClickRow: function(index, row) {
+                if (row) {
+                    $('#dlg-adminUserOptlogReadonly').dialog('open').dialog('center').dialog('setTitle', '查看常用链接信息');
+                    $('#fm-adminUserOptlogReadonly').form('load', row);
+                }
+            }
+        });
+
+    });
+
+    function adminUserOptlogSearch() {
+        $('#dlg-adminUserOptlogSearch').dialog('open').dialog('center').dialog('setTitle', '查询管理员操作信息');
+        $('#fm-adminUserOptlogSearch').form('clear');
+    }
+
+    function adminUserOptlogSearchSave() {
+        $('#fm-adminUserOptlogSearch').form('submit', {
+            url: '../xhAdminUserOptlog/search',
+            method: 'post',
+            onSubmit: function() {
+
+            },
+            success: function(data) {
+                var vData = $.parseJSON(data);
+                $('#dlg-adminUserOptlogSearch').dialog('close');
+                $('#adminUserOptlog-table').datagrid('loadData', vData);
+            }
+        });
+
+    }
+   
+
+   
+    </script>
+</body>
+
+</html>

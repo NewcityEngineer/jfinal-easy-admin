@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>食材信息</title>
+<link rel="stylesheet" type="text/css"
+	href="../xhAdmin/css/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css"
+	href="../xhAdmin/css/themes/icon.css">
+<link rel="stylesheet" type="text/css"
+	href="../xhAdmin/css/themes/color.css">
+<link rel="stylesheet" type="text/css"
+	href="../xhAdmin/css/demo/demo.css">
+<script type="text/javascript" src="../xhAdmin/js/jquery.min.js"></script>
+<script type="text/javascript" src="../xhAdmin/js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+	<div id="toolbar-ingredients">
+		<a href="javascript:void(0)" id="ingredientsAddBtn"
+			class="easyui-linkbutton" iconCls="icon-add" plain="true"
+			onclick="ingredientsAdd()">添加</a> <a href="javascript:void(0)"
+			id="ingredientsEditBtn" class="easyui-linkbutton" iconCls="icon-edit"
+			plain="true" onclick="ingredientsEdit()">修改</a> <a
+			href="javascript:void(0)" id="ingredientsDestroyBtn"
+			class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+			onclick="ingredientsDestroy()">删除</a>
+	</div>
+	<table id="ingredients-table" class="easyui-datagrid"
+		data-options="fit:true,border:false,url:'../xhIngredients/all',method:'get'"
+		style="width: auto; height: 100%" toolbar="#toolbar-ingredients"
+		pagination="true" rownumbers="true" fitColumns="true"
+		singleSelect="true" pageSize="20">
+		<thead>
+			<tr>
+				<th field="ingreId" width="16%" align="center">食材编码</th>
+				<th field="img" width="16%" align="center"
+					data-options="formatter:function(v){return '<img src='+v+' style=width:80px;height:80px;cursor:pointer;/>'}">图片内容</th>
+				<th field="food_style_sId" width="17%" align="center">关联二类编码</th>
+				<th field="name" width="17%" align="center">食材名称</th>
+				<th field="function" width="17%" align="center">作用</th>
+				<th field="description" width="17%" align="center">说明</th>
+				<th field="purchase" width="17%" align="center">选购</th>
+				<th field="tropism" width="17%" align="center">性味归精</th>
+				<th field="effect" width="17%" align="center">养生功效</th>
+				<th field="suitPeople" width="17%" align="center">适宜人群</th>
+				<th field="notSuitPeople" width="17%" align="center">不适合人群</th>
+				<th field="suitWith" width="17%" align="center">适合搭配</th>
+				<th field="notSuitWith" width="17%" align="center">不适合搭配</th>
+				<th field="foodLawTaboo" width="17%" align="center">食法宜忌</th>
+				<th field="prescription" width="17%" align="center">家庭祛病养生方</th>
+				<th field="suitSeason" width="17%" align="center">适合季节</th>
+				<th field="notSuitSeason" width="17%" align="center">不适合季节</th>
+				<th field="oldTime" width="17%" align="center">最开始更改时间</th>
+				<th field="newTime" width="17%" align="center">最新更改时间</th>
+				<th field="timestamp" width="17%" align="center">时间戳</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="dlg-ingredientsAdd" class="easyui-dialog"
+		style="width: 650px; height: 393px; padding: 1px 1px" closed="true"
+		buttons="#dlg-ingredientsAdd-btn" align="center"
+		data-options="modal:true">
+		<form id="fm-ingredientsAdd" method="post" novalidate
+			enctype="multipart/form-data">
+			<table class="pattern" border="0" cellpadding="5" cellspacing="0">
+				<tr>
+					<th width="100px">所属二级分类：</th>
+					<td colspan="3"><select class="easyui-combotree"
+						name="food_style_sId" style="width: 100%;"
+						data-options="url:'../xhStyle/getJsonTreeData',method:'get',valueField:'id'" /></td>
+					<th width="100px">食材名称：</th>
+					<td colspan="3"><input type="text" id="name" name="name"
+						class="easyui-textbox" style="width: 100%"></td>
+					<th width="100px">作用：</th>
+					<td colspan="3"><input type="text" id="function"
+						name="function" class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+				<tr>
+
+					<th width="100px">说明：</th>
+					<td colspan="3"><input type="text" id="description"
+						name="description" class="easyui-textbox" style="width: 100%"></td>
+
+					<th width="100px">选购：</th>
+					<td colspan="3"><input type="text" id="purchase"
+						name="purchase" class="easyui-textbox" style="width: 100%"></td>
+					<th width="100px">性味归精：</th>
+					<td colspan="3"><input type="text" id="tropism" name="tropism"
+						class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+
+				<tr>
+
+					<th width="100px">养生功效：</th>
+					<td colspan="3"><input type="text" id="effect"
+						name="effect" class="easyui-textbox" style="width: 100%"></td>
+
+					<th width="100px">适宜人群：</th>
+					<td colspan="3"><input type="text" id="suitPeople"
+						name="suitPeople" class="easyui-textbox" style="width: 100%"></td>
+					<th width="100px">不适宜人群：</th>
+					<td colspan="3"><input type="text" id="notSuitPeople" name="notSuitPeople"
+						class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+				
+				<tr>
+
+					<th width="100px">适合搭配：</th>
+					<td colspan="3"><input type="text" id="suitWith"
+						name="suitWith" class="easyui-textbox" style="width: 100%"></td>
+
+					<th width="100px">不适合搭配：</th>
+					<td colspan="3"><input type="text" id="notSuitWith"
+						name="notSuitWith" class="easyui-textbox" style="width: 100%"></td>
+					<th width="100px">食法宜忌：</th>
+					<td colspan="3"><input type="text" id="foodLawTaboo" name="foodLawTaboo"
+						class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+				
+				<tr>
+					<th width="100px">家庭祛病养生方：</th>
+					<td colspan="3"><input type="text" id="prescription"
+						name="prescription" class="easyui-textbox" style="width: 100%"></td>
+					<th width="100px">适合季节：</th>
+					<td colspan="3"><input type="text" id="suitSeason"
+						name="suitSeason" class="easyui-textbox" style="width: 100%"></td>
+
+					<th width="100px">不适合季节：</th>
+					<td colspan="3"><input type="text" id="notSuitSeason"
+						name="notSuitSeason" class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+				
+				
+				<tr>
+					
+
+					<th>选择文件：</th>
+					<td><input type="file" id="img" name="img" style="width: 100%"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div id="dlg-ingredientsAdd-btn">
+		<a href="javascript:void(0)" class="easyui-linkbutton c6"
+			iconCls="icon-ok" onclick="ingredientsAddSave()" style="width: 90px">保存</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel"
+			onclick="javascript:$('#dlg-ingredientsAdd').dialog('close')"
+			style="width: 90px">关闭</a>
+	</div>
+	<div id="dlg-ingredientsEdit" class="easyui-dialog"
+		style="width: 650px; height: 393px; padding: 1px 1px" closed="true"
+		buttons="#dlg-ingredientsEdit-btn" align="center"
+		data-options="modal:true">
+		<form id="fm-ingredientsEdit" method="post" novalidate
+			enctype="multipart/form-data">
+			<table class="pattern" border="0">
+				<tr>
+
+					<th width="100px">食材编码：</th>
+					<td colspan="3"><input type="text" id="ingreId"
+						name="ingreId" class="easyui-textbox" style="width: 100%"></td>
+					<th width="100px">所属二级分类：</th>
+					<td colspan="3"><select class="easyui-combotree"
+						name="food_style_sId" style="width: 100%;"
+						data-options="url:'../xhStyle/getJsonTreeData',method:'get',valueField:'id'" /></td>
+					<th width="100px">食材名称：</th>
+					<td colspan="3"><input type="text" id="name" name="name"
+						class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+				
+				<tr>
+					
+					<th width="100px">作用：</th>
+					<td colspan="3"><input type="text" id="function"
+						name="function" class="easyui-textbox" style="width: 100%"></td>
+						<th width="100px">说明：</th>
+					<td colspan="3"><input type="text" id="description"
+						name="description" class="easyui-textbox" style="width: 100%"></td>
+
+					<th width="100px">选购：</th>
+					<td colspan="3"><input type="text" id="purchase"
+						name="purchase" class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+				<tr>
+
+					
+					<th width="100px">性味归精：</th>
+					<td colspan="3"><input type="text" id="tropism" name="tropism"
+						class="easyui-textbox" style="width: 100%"></td>
+						<th width="100px">养生功效：</th>
+					<td colspan="3"><input type="text" id="effect"
+						name="effect" class="easyui-textbox" style="width: 100%"></td>
+
+					<th width="100px">适宜人群：</th>
+					<td colspan="3"><input type="text" id="suitPeople"
+						name="suitPeople" class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+
+				<tr>
+
+					
+					<th width="100px">不适宜人群：</th>
+					<td colspan="3"><input type="text" id="notSuitPeople" name="notSuitPeople"
+						class="easyui-textbox" style="width: 100%"></td>
+						<th width="100px">适合搭配：</th>
+					<td colspan="3"><input type="text" id="suitWith"
+						name="suitWith" class="easyui-textbox" style="width: 100%"></td>
+
+					<th width="100px">不适合搭配：</th>
+					<td colspan="3"><input type="text" id="notSuitWith"
+						name="notSuitWith" class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+				
+				<tr>
+
+					
+					<th width="100px">食法宜忌：</th>
+					<td colspan="3"><input type="text" id="foodLawTaboo" name="foodLawTaboo"
+						class="easyui-textbox" style="width: 100%"></td>
+						<th width="100px">家庭祛病养生方：</th>
+					<td colspan="3"><input type="text" id="prescription"
+						name="prescription" class="easyui-textbox" style="width: 100%"></td>
+					<th width="100px">适合季节：</th>
+					<td colspan="3"><input type="text" id="suitSeason"
+						name="suitSeason" class="easyui-textbox" style="width: 100%"></td>
+						
+				</tr>
+				
+				<tr>
+					
+					<th width="100px">不适合季节：</th>
+					<td colspan="3"><input type="text" id="notSuitSeason"
+						name="notSuitSeason" class="easyui-textbox" style="width: 100%"></td>
+					 <th width="100px">图片地址：</th>
+					<td colspan="3"><input type="text" id="img" name="img" class="easyui-textbox" style="width:100%"></td>
+					<th width="100px">选择文件：</th>
+					<td colspan="3"><input type="file" id="img" name="img" style="width: 100%"></td>
+				</tr>
+				
+				<input type="hidden" name="id" />
+				<input type="hidden" name="timestamp" />
+			</table>
+		</form>
+	</div>
+	<div id="dlg-ingredientsEdit-btn">
+		<a href="javascript:void(0)" class="easyui-linkbutton c6"
+			iconCls="icon-ok" onclick="ingredientsEditSave()" style="width: 90px">保存</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel"
+			onclick="javascript:$('#dlg-ingredientsEdit').dialog('close')"
+			style="width: 90px">关闭</a>
+	</div>
+	<div id="dlg-ingredientsReadonly" class="easyui-dialog"
+		style="width: 650px; height: 393px; padding: 1px 1px" closed="true"
+		buttons="#dlg-ingredientsReadonly-btn" align="center"
+		data-options="modal:true">
+		<form id="fm-ingredientsReadonly" method="post" novalidate>
+			<table class="pattern" border="0" cellpadding="5" cellspacing="0">
+				<tr>
+
+					<th width="100px">食材编码：</th>
+					<td colspan="3"><input type="text" id="ingreId"
+						name="ingreId" class="easyui-textbox" style="width: 100%"></td>
+					<th width="100px">所属二级分类：</th>
+					<td colspan="3"><select class="easyui-combotree"
+						name="food_style_sId" style="width: 100%;"
+						data-options="url:'../xhStyle/getJsonTreeData',method:'get',valueField:'id'" /></td>
+					<th width="100px">食材名称：</th>
+					<td colspan="3"><input type="text" id="name" name="name"
+						class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+				
+				<tr>
+					
+					<th width="100px">作用：</th>
+					<td colspan="3"><input type="text" id="function"
+						name="function" class="easyui-textbox" style="width: 100%"></td>
+						<th width="100px">说明：</th>
+					<td colspan="3"><input type="text" id="description"
+						name="description" class="easyui-textbox" style="width: 100%"></td>
+
+					<th width="100px">选购：</th>
+					<td colspan="3"><input type="text" id="purchase"
+						name="purchase" class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+				<tr>
+
+					
+					<th width="100px">性味归精：</th>
+					<td colspan="3"><input type="text" id="tropism" name="tropism"
+						class="easyui-textbox" style="width: 100%"></td>
+						<th width="100px">养生功效：</th>
+					<td colspan="3"><input type="text" id="effect"
+						name="effect" class="easyui-textbox" style="width: 100%"></td>
+
+					<th width="100px">适宜人群：</th>
+					<td colspan="3"><input type="text" id="suitPeople"
+						name="suitPeople" class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+
+				<tr>
+
+					
+					<th width="100px">不适宜人群：</th>
+					<td colspan="3"><input type="text" id="notSuitPeople" name="notSuitPeople"
+						class="easyui-textbox" style="width: 100%"></td>
+						<th width="100px">适合搭配：</th>
+					<td colspan="3"><input type="text" id="suitWith"
+						name="suitWith" class="easyui-textbox" style="width: 100%"></td>
+
+					<th width="100px">不适合搭配：</th>
+					<td colspan="3"><input type="text" id="notSuitWith"
+						name="notSuitWith" class="easyui-textbox" style="width: 100%"></td>
+				</tr>
+				
+				<tr>
+
+					
+					<th width="100px">食法宜忌：</th>
+					<td colspan="3"><input type="text" id="foodLawTaboo" name="foodLawTaboo"
+						class="easyui-textbox" style="width: 100%"></td>
+						<th width="100px">家庭祛病养生方：</th>
+					<td colspan="3"><input type="text" id="prescription"
+						name="prescription" class="easyui-textbox" style="width: 100%"></td>
+					<th width="100px">适合季节：</th>
+					<td colspan="3"><input type="text" id="suitSeason"
+						name="suitSeason" class="easyui-textbox" style="width: 100%"></td>
+						
+				</tr>
+				
+				<tr>
+					
+					<th width="100px">不适合季节：</th>
+					<td colspan="3"><input type="text" id="notSuitSeason"
+						name="notSuitSeason" class="easyui-textbox" style="width: 100%"></td>
+					 <th width="100px">图片地址：</th>
+					<td colspan="3"><input type="text" id="img" name="img" class="easyui-textbox" style="width:100%"></td>
+					<th width="100px">选择文件：</th>
+					<td colspan="3"><input type="file" id="img" name="img" style="width: 100%"></td>
+				</tr>
+				
+				
+		
+				<input type="hidden" name="id" />
+				<input type="hidden" name="timestamp" />
+			</table>
+		</form>
+	</div>
+	<div id="dlg-ingredientsReadonly-btn">
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel"
+			onclick="javascript:$('#dlg-ingredientsReadonly').dialog('close')"
+			style="width: 90px">关闭</a>
+	</div>
+	<script type="text/javascript">
+    $(document).ready(function() {
+        /*$.post('/jg/checkScope', {
+            sessionName: 'f9'
+        }, function(data) {
+            if (data == false) {
+                $('#toolbar-ingredients #ingredientsAddBtn').hide();
+                $('#toolbar-ingredients #ingredientsEditBtn').hide();
+                $('#toolbar-ingredients #ingredientsDestroyBtn').hide();
+            }
+        }, 'json');*/
+
+        $("#ingredients-table").datagrid({
+            //双击事件  
+            onDblClickRow: function(index, row) {
+                if (row) {
+                    $('#dlg-ingredientsReadonly').dialog('open').dialog('center').dialog('setTitle', '查看食材信息');
+                    $('#fm-ingredientsReadonly').form('load', row);
+                }
+            }
+        });
+
+    });
+
+    function ingredientsAdd() {
+        $('#dlg-ingredientsAdd').dialog('open').dialog('center').dialog('setTitle', '添加食材信息');
+        $('#fm-ingredientsAdd').form('clear');
+    }
+
+    function ingredientsAddSave() {
+        $('#fm-ingredientsAdd').form('submit', {
+            url: '../xhIngredients/add',
+            onSubmit: function() {
+                //进行表单验证
+                //如果返回false阻止提交
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                if (data.result == 'success') {
+                    $('#dlg-ingredientsAdd').dialog('close');
+                    $('#ingredients-table').datagrid('reload');
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+
+    }
+
+    function ingredientsEdit() {
+        var row = $('#ingredients-table').datagrid('getSelected');
+        console.log(row);
+        if (row) {
+            $('#dlg-ingredientsEdit').dialog('open').dialog('center').dialog('setTitle', '修改食材信息');
+            $('#fm-ingredientsEdit').form('load', row);
+        }
+    }
+
+    function ingredientsEditSave() {
+        $('#fm-ingredientsEdit').form('submit', {
+            url: '../xhIngredients/update',
+            onSubmit: function() {
+                //进行表单验证
+                //如果返回false阻止提交
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                if (data.result == 'success') {
+                    $('#dlg-ingredientsEdit').dialog('close');
+                    $('#ingredients-table').datagrid('reload');
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+    }
+
+    function ingredientsDestroy() {
+        var row = $('#ingredients-table').datagrid('getSelected');
+        if (row) {
+            $.messager.confirm('删除', '是否彻底删除该食材信息？？？', function(r) {
+                if (r) {
+                    $.post('../xhIngredients/delete', {
+                        id: row.id
+                    }, function(data) {
+                        if (data.result == 'success') {
+                            $('#ingredients-table').datagrid('reload'); // reload the user data
+                            $.messager.show({ // show error message
+                                title: '操作完成',
+                                msg: data.description
+                            });
+                        } else {
+                            $.messager.show({ // show error message
+                                title: '出错了',
+                                msg: data.description
+                            });
+                        }
+                    }, 'json');
+                }
+            });
+        }
+    }
+    </script>
+</body>
+
+</html>

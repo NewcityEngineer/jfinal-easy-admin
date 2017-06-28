@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "text": "食物相生相克管理",
+		"iconCls":"icon-department",
+        "attributes": {
+            "url": "xhFood"
+        }
+    },
+	{
+        "id": 2,
+        "text": "病症信息管理",
+		"iconCls":"icon-post",
+        "attributes": {
+            "url": "xhSymptom"
+        }
+    }
+]

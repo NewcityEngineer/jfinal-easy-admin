@@ -1,0 +1,18 @@
+[
+	{
+        "id": 1,
+        "text": "爬虫管理",
+		"iconCls":"icon-department",
+        "attributes": {
+            "url": "xhJobLink"
+        }
+    },
+    {
+        "id": 2,
+        "text": "食品安全曝光",
+		"iconCls":"icon-department",
+        "attributes": {
+            "url": "xhJobFoodNews"
+        }
+    }
+]

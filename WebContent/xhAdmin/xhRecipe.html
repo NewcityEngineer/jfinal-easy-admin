@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>健康食谱</title>
+      <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/color.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/demo/demo.css">
+    <script type="text/javascript" src="../xhAdmin/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../xhAdmin/js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+    <div id="toolbar-recipe">
+        <a href="javascript:void(0)" id="recipeAddBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="recipeAdd()">添加</a>
+        <a href="javascript:void(0)" id="recipeEditBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="recipeEdit()">修改</a>
+        <a href="javascript:void(0)" id="recipeDestroyBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="recipeDestroy()">删除</a>
+    </div>
+    <table id="recipe-table" class="easyui-datagrid" data-options="fit:true,border:false,url:'../xhRecipe/all',method:'get'" style="width:auto;height:100%" toolbar="#toolbar-recipe" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true" pageSize="20">
+        <thead>
+            <tr>
+               <th field="recipeId" width="16%" align="center">食谱编码</th>
+                <th field="img" width="16%" align="center" data-options="formatter:function(v){return '<img src='+v+' style=width:80px;height:80px;cursor:pointer;/>'}">图片内容</th>
+                <th field="food_style_sId" width="17%" align="center">关联二类编码</th>
+                <th field="name" width="17%" align="center">食谱名称</th>
+                <th field="function" width="17%" align="center">作用</th>
+                <th field="raw" width="17%" align="center">材料</th>
+                <th field="method" width="17%" align="center">做法</th>
+                <th field="effect" width="17%" align="center">养生功效</th>
+                <th field="count" width="17%" align="center">浏览次数</th>
+                <th field="oldTime" width="17%" align="center">最开始更改时间</th>
+                <th field="newTime" width="17%" align="center">最新更改时间</th>
+                <th field="timestamp" width="17%" align="center">时间戳</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="dlg-recipeAdd" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-recipeAdd-btn" align="center" data-options="modal:true">
+        <form id="fm-recipeAdd" method="post" novalidate enctype="multipart/form-data" >
+            <table class="pattern" border="0" cellpadding="5" cellspacing="0">
+              <tr>
+				<th width="100px">所属二级分类：</th>
+				<td colspan="3"><select class="easyui-combotree" name="food_style_sId" style="width:100%;" data-options="url:'../xhStyle/getJsonTreeData',method:'get',valueField:'id'" /></td>
+				
+				<th width="100px">食谱名称：</th>
+				<td colspan="3"><input type="text" id="name" name="name" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				
+				<th width="100px">作用：</th>
+				<td colspan="3"><input type="text" id="function" name="function" class="easyui-textbox" style="width:100%"></td>
+               
+                <th width="100px">材料：</th>
+				<td colspan="3"><input type="text" id="raw" name="raw" class="easyui-textbox"  style="width:100%"></td>
+                <th width="100px">做法：</th>
+				<td colspan="3"><input type="text" id="method" name="method" class="easyui-textbox"  style="width:100%"></td>
+				 </tr>
+            <tr>
+				<th width="100px">养生功效：</th>
+				<td colspan="3"><input type="text" id="effect" name="effect" class="easyui-textbox"  style="width:100%"></td>
+			
+                <th>选择文件：</th>
+               <td><input type="file" id="img" name="img" style="width:100%"></td>
+            </tr>
+            </table>
+        </form>
+    </div>
+    <div id="dlg-recipeAdd-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="recipeAddSave()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-recipeAdd').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <div id="dlg-recipeEdit" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-recipeEdit-btn" align="center" data-options="modal:true">
+        <form id="fm-recipeEdit" method="post" novalidate enctype="multipart/form-data">
+            <table class="pattern" border="0">
+			 <tr>
+				<th width="100px">所属二级分类：</th>
+				<td colspan="3"><select class="easyui-combotree" name="food_style_sId" style="width:100%;" data-options="url:'../xhStyle/getJsonTreeData',method:'get',valueField:'id'" /></td>
+				<th width="100px">食谱编码：</th>
+				<td colspan="3"><input type="text" id="recipeId" name="recipeId" class="easyui-textbox" style="width:100%"></td>
+			
+				<th width="100px">食谱名称：</th>
+				<td colspan="3"><input type="text" id="name" name="name" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				
+				<th width="100px">作用：</th>
+				<td colspan="3"><input type="text" id="function" name="function" class="easyui-textbox" style="width:100%"></td>
+               
+                <th width="100px">材料：</th>
+				<td colspan="3"><input type="text" id="raw" name="raw" class="easyui-textbox"  style="width:100%"></td>
+                <th width="100px">做法：</th>
+				<td colspan="3"><input type="text" id="method" name="method" class="easyui-textbox"  style="width:100%"></td>
+				 </tr>
+           		 <tr>
+				<th width="100px">养生功效：</th>
+				<td colspan="3"><input type="text" id="effect" name="effect" class="easyui-textbox"  style="width:100%"></td>
+				</tr>
+				<tr>
+			 <th>图片地址：</th>
+			<td><input type="text" id="img" name="img" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+				<tr>
+				
+                <th>选择文件：</th>
+               <td><input type="file" id="img" name="img" style="width:100%"></td>
+            </tr>
+            <input type="hidden" name="id" />
+            <input type="hidden" name="timestamp" />
+			</table>
+        </form>
+    </div>
+    <div id="dlg-recipeEdit-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="recipeEditSave()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-recipeEdit').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <div id="dlg-recipeReadonly" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-recipeReadonly-btn" align="center" data-options="modal:true">
+        <form id="fm-recipeReadonly" method="post" novalidate>
+            <table class="pattern" border="0" cellpadding="5" cellspacing="0">
+			 <tr>
+				<th width="100px">所属二级分类：</th>
+				<td colspan="3"><select class="easyui-combotree" name="food_style_sId" style="width:100%;" data-options="url:'../xhStyle/getJsonTreeData',method:'get',valueField:'id'" /></td>
+				<th width="100px">食谱编码：</th>
+				<td colspan="3"><input type="text" id="recipeId" name="recipeId" class="easyui-textbox" style="width:100%"></td>
+			
+				<th width="100px">食谱名称：</th>
+				<td colspan="3"><input type="text" id="name" name="name" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				
+				<th width="100px">作用：</th>
+				<td colspan="3"><input type="text" id="function" name="function" class="easyui-textbox" style="width:100%"></td>
+               
+                <th width="100px">材料：</th>
+				<td colspan="3"><input type="text" id="raw" name="raw" class="easyui-textbox"  style="width:100%"></td>
+                <th width="100px">做法：</th>
+				<td colspan="3"><input type="text" id="method" name="method" class="easyui-textbox"  style="width:100%"></td>
+				 </tr>
+           		 <tr>
+				<th width="100px">养生功效：</th>
+				<td colspan="3"><input type="text" id="effect" name="effect" class="easyui-textbox"  style="width:100%"></td>
+				</tr>
+				<tr>
+			 <th>图片地址：</th>
+			<td><input type="text" id="img" name="img" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+				<tr>
+				
+                <th>选择文件：</th>
+               <td><input type="file" id="img" name="img" style="width:100%"></td>
+            </tr>
+            <input type="hidden" name="id" />
+            <input type="hidden" name="timestamp" />
+			</table>
+        </form>
+    </div>
+    <div id="dlg-recipeReadonly-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-recipeReadonly').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        /*$.post('/jg/checkScope', {
+            sessionName: 'f9'
+        }, function(data) {
+            if (data == false) {
+                $('#toolbar-recipe #recipeAddBtn').hide();
+                $('#toolbar-recipe #recipeEditBtn').hide();
+                $('#toolbar-recipe #recipeDestroyBtn').hide();
+            }
+        }, 'json');*/
+
+        $("#recipe-table").datagrid({
+            //双击事件  
+            onDblClickRow: function(index, row) {
+                if (row) {
+                    $('#dlg-recipeReadonly').dialog('open').dialog('center').dialog('setTitle', '查看食谱信息');
+                    $('#fm-recipeReadonly').form('load', row);
+                }
+            }
+        });
+
+    });
+
+    function recipeAdd() {
+        $('#dlg-recipeAdd').dialog('open').dialog('center').dialog('setTitle', '添加一级分类信息');
+        $('#fm-recipeAdd').form('clear');
+    }
+
+    function recipeAddSave() {
+        $('#fm-recipeAdd').form('submit', {
+            url: '../xhRecipe/add',
+            onSubmit: function() {
+                //进行表单验证
+                //如果返回false阻止提交
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                if (data.result == 'success') {
+                    $('#dlg-recipeAdd').dialog('close');
+                    $('#recipe-table').datagrid('reload');
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+
+    }
+
+    function recipeEdit() {
+        var row = $('#recipe-table').datagrid('getSelected');
+        if (row) {
+            $('#dlg-recipeEdit').dialog('open').dialog('center').dialog('setTitle', '修改食谱信息');
+            $('#fm-recipeEdit').form('load', row);
+        }
+    }
+
+    function recipeEditSave() {
+        $('#fm-recipeEdit').form('submit', {
+            url: '../xhRecipe/update',
+            onSubmit: function() {
+                //进行表单验证
+                //如果返回false阻止提交
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                if (data.result == 'success') {
+                    $('#dlg-recipeEdit').dialog('close');
+                    $('#recipe-table').datagrid('reload');
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+    }
+
+    function recipeDestroy() {
+        var row = $('#recipe-table').datagrid('getSelected');
+        if (row) {
+            $.messager.confirm('删除', '是否彻底删除该食谱信息？？？', function(r) {
+                if (r) {
+                    $.post('../xhRecipe/delete', {
+                        id: row.id
+                    }, function(data) {
+                        if (data.result == 'success') {
+                            $('#recipe-table').datagrid('reload'); // reload the user data
+                            $.messager.show({ // show error message
+                                title: '操作完成',
+                                msg: data.description
+                            });
+                        } else {
+                            $.messager.show({ // show error message
+                                title: '出错了',
+                                msg: data.description
+                            });
+                        }
+                    }, 'json');
+                }
+            });
+        }
+    }
+    </script>
+</body>
+
+</html>

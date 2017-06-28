@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>健康食谱</title>
+      <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/color.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/demo/demo.css">
+    <script type="text/javascript" src="../xhAdmin/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../xhAdmin/js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+    <div id="toolbar-jobFoodNews">
+        <a href="javascript:void(0)" id="jobFoodNewsAddBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="jobFoodNewsAdd()">添加</a>
+        <a href="javascript:void(0)" id="jobFoodNewsEditBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="jobFoodNewsEdit()">修改</a>
+        <a href="javascript:void(0)" id="jobFoodNewsDestroyBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="jobFoodNewsDestroy()">删除</a>
+    </div>
+    <table id="jobFoodNews-table" class="easyui-datagrid" data-options="fit:true,border:false,url:'../xhJobFoodNews/all',method:'get'" style="width:auto;height:100%" toolbar="#toolbar-jobFoodNews" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true" pageSize="20">
+        <thead>
+            <tr>
+              	<th field="category" width="16%" align="center">文章分类</th>
+              	<th field="title" width="16%" align="center">文章标题</th>
+                <th field="url" width="17%" align="center">文章原网址</th>
+                <th field="source" width="17%" align="center">文章来源</th>
+                <th field="keywords" width="17%" align="center">关键词</th>
+                <th field="score" width="17%" align="center">评分</th>
+                <th field="publishTime" width="17%" align="center">发布时间</th>
+                <th field="createTime" width="17%" align="center">爬取时间</th>
+                <th field="imgurl" width="17%" align="center">图片链接</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="dlg-jobFoodNewsAdd" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-jobFoodNewsAdd-btn" align="center" data-options="modal:true">
+        <form id="fm-jobFoodNewsAdd" method="post" novalidate>
+            <table class="pattern" border="0">
+              <tr>
+				<th width="18%">文章分类：</th>
+				<td width="32%"><input type="text" id="category" name="category" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">文章标题：</th>
+				<td width="32%"><input type="text" id="title" name="title" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				<th width="18%">文章来源：</th>
+				<td width="32%"><input type="text" id="source" name="source" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">关键词：</th>
+				<td width="32%"><input type="text" id="keywords" name="keywords" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="18%">文章原网址：</th>
+				<td width="72%" colspan="3"><input type="text" id="url" name="url" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				
+				<th width="18%">评分：</th>
+				<td width="32%"><input type="text" id="score" name="score" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">发布时间：</th>
+				<td width="32%"><input type="text" id="publishTime" name="publishTime" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="18%">爬取时间：</th>
+				<td width="32%"><input type="text" id="createTime" name="createTime" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">图片链接：</th>
+				<td width="32%"><input type="text" id="imgurl" name="imgurl" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+                    <th>文章内容：</th>
+                    <td colspan="3">
+                        <input class="easyui-textbox" id="content" name="content" style="width:100%;height:80px" data-options="multiline:true" style="width:100%" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="dlg-jobFoodNewsAdd-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="jobFoodNewsAddSave()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-jobFoodNewsAdd').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <div id="dlg-jobFoodNewsEdit" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-jobFoodNewsEdit-btn" align="center" data-options="modal:true">
+        <form id="fm-jobFoodNewsEdit" method="post" novalidate>
+            <table class="pattern" border="0">
+			  <tr>
+				<th width="18%">文章分类：</th>
+				<td width="32%"><input type="text" id="category" name="category" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">文章标题：</th>
+				<td width="32%"><input type="text" id="title" name="title" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				<th width="18%">文章来源：</th>
+				<td width="32%"><input type="text" id="source" name="source" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">关键词：</th>
+				<td width="32%"><input type="text" id="keywords" name="keywords" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="18%">文章原网址：</th>
+				<td width="72%" colspan="3"><input type="text" id="url" name="url" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				
+				<th width="18%">评分：</th>
+				<td width="32%"><input type="text" id="score" name="score" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">发布时间：</th>
+				<td width="32%"><input type="text" id="publishTime" name="publishTime" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="18%">爬取时间：</th>
+				<td width="32%"><input type="text" id="createTime" name="createTime" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">图片链接：</th>
+				<td width="32%"><input type="text" id="imgurl" name="imgurl" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+                    <th>文章内容：</th>
+                    <td colspan="3">
+                        <input class="easyui-textbox" id="content" name="content" style="width:100%;height:80px" data-options="multiline:true" style="width:100%" />
+                    </td>
+                </tr>
+            <input type="hidden" name="id" />
+			</table>
+        </form>
+    </div>
+    <div id="dlg-jobFoodNewsEdit-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="jobFoodNewsEditSave()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-jobFoodNewsEdit').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <div id="dlg-jobFoodNewsReadonly" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-jobFoodNewsReadonly-btn" align="center" data-options="modal:true">
+        <form id="fm-jobFoodNewsReadonly" method="post" novalidate>
+            <table class="pattern" border="0" cellpadding="5" cellspacing="0">
+			 <tr>
+				<th width="18%">文章分类：</th>
+				<td width="32%"><input type="text" id="category" name="category" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">文章标题：</th>
+				<td width="32%"><input type="text" id="title" name="title" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				<th width="18%">文章来源：</th>
+				<td width="32%"><input type="text" id="source" name="source" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">关键词：</th>
+				<td width="32%"><input type="text" id="keywords" name="keywords" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="18%">文章原网址：</th>
+				<td width="72%" colspan="3"><input type="text" id="url" name="url" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				
+				<th width="18%">评分：</th>
+				<td width="32%"><input type="text" id="score" name="score" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">发布时间：</th>
+				<td width="32%"><input type="text" id="publishTime" name="publishTime" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="18%">爬取时间：</th>
+				<td width="32%"><input type="text" id="createTime" name="createTime" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">图片链接：</th>
+				<td width="32%"><input type="text" id="imgurl" name="imgurl" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+                    <th>文章内容：</th>
+                    <td colspan="3">
+                        <input class="easyui-textbox" id="content" name="content" style="width:100%;height:80px" data-options="multiline:true" style="width:100%" />
+                    </td>
+                </tr>
+            <input type="hidden" name="id" />
+			</table>
+        </form>
+    </div>
+    <div id="dlg-jobFoodNewsReadonly-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-jobFoodNewsReadonly').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        /*$.post('/jg/checkScope', {
+            sessionName: 'f9'
+        }, function(data) {
+            if (data == false) {
+                $('#toolbar-jobFoodNews #jobFoodNewsAddBtn').hide();
+                $('#toolbar-jobFoodNews #jobFoodNewsEditBtn').hide();
+                $('#toolbar-jobFoodNews #jobFoodNewsDestroyBtn').hide();
+            }
+        }, 'json');*/
+
+        $("#jobFoodNews-table").datagrid({
+            //双击事件  
+            onDblClickRow: function(index, row) {
+                if (row) {
+                    $('#dlg-jobFoodNewsReadonly').dialog('open').dialog('center').dialog('setTitle', '查看食品安全曝光信息');
+                    $('#fm-jobFoodNewsReadonly').form('load', row);
+                }
+            }
+        });
+
+    });
+
+    function jobFoodNewsAdd() {
+        $('#dlg-jobFoodNewsAdd').dialog('open').dialog('center').dialog('setTitle', '添加食品安全曝光信息');
+        $('#fm-jobFoodNewsAdd').form('clear');
+    }
+
+    function jobFoodNewsAddSave() {
+        $('#fm-jobFoodNewsAdd').form('submit', {
+            url: '../xhJobFoodNews/add',
+            onSubmit: function() {
+                //进行表单验证
+                //如果返回false阻止提交
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                if (data.result == 'success') {
+                    $('#dlg-jobFoodNewsAdd').dialog('close');
+                    $('#jobFoodNews-table').datagrid('reload');
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+
+    }
+
+    function jobFoodNewsEdit() {
+        var row = $('#jobFoodNews-table').datagrid('getSelected');
+        if (row) {
+            $('#dlg-jobFoodNewsEdit').dialog('open').dialog('center').dialog('setTitle', '修改食品安全曝光信息');
+            $('#fm-jobFoodNewsEdit').form('load', row);
+        }
+    }
+
+    function jobFoodNewsEditSave() {
+        $('#fm-jobFoodNewsEdit').form('submit', {
+            url: '../xhJobFoodNews/update',
+            onSubmit: function() {
+                //进行表单验证
+                //如果返回false阻止提交
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                if (data.result == 'success') {
+                    $('#dlg-jobFoodNewsEdit').dialog('close');
+                    $('#jobFoodNews-table').datagrid('reload');
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+    }
+
+    function jobFoodNewsDestroy() {
+        var row = $('#jobFoodNews-table').datagrid('getSelected');
+        if (row) {
+            $.messager.confirm('删除', '是否彻底删除该食品安全曝光信息？？？', function(r) {
+                if (r) {
+                    $.post('../xhJobFoodNews/delete', {
+                        id: row.id
+                    }, function(data) {
+                        if (data.result == 'success') {
+                            $('#jobFoodNews-table').datagrid('reload'); // reload the user data
+                            $.messager.show({ // show error message
+                                title: '操作完成',
+                                msg: data.description
+                            });
+                        } else {
+                            $.messager.show({ // show error message
+                                title: '出错了',
+                                msg: data.description
+                            });
+                        }
+                    }, 'json');
+                }
+            });
+        }
+    }
+    </script>
+</body>
+
+</html>

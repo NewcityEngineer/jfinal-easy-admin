@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>食物相生相克</title>
+      <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/color.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/demo/demo.css">
+    <script type="text/javascript" src="../xhAdmin/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../xhAdmin/js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+    <div id="toolbar-food">
+        <a href="javascript:void(0)" id="foodAddBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="foodAdd()">添加</a>
+        <a href="javascript:void(0)" id="foodEditBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="foodEdit()">修改</a>
+        <a href="javascript:void(0)" id="foodDestroyBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="foodDestroy()">删除</a>
+    </div>
+    <table id="food-table" class="easyui-datagrid" data-options="fit:true,border:false,url:'../xhFood/all',method:'get'" style="width:auto;height:100%" toolbar="#toolbar-food" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true" pageSize="20">
+        <thead>
+            <tr>
+               <th field="species" width="16%" align="center">食品类别</th>
+               <th field="name" width="17%" align="center">食品名称</th>
+                <th field="othername" width="17%" align="center">别名</th>
+                <th field="effect" width="17%" align="center">营养功效</th>
+                <th field="suitable" width="17%" align="center">适宜人群</th>
+                <th field="unsuited" width="17%" align="center">不宜人群</th>
+                <th field="choose" width="17%" align="center">选购</th>
+                <th field="store" width="17%" align="center">储存</th>
+                <th field="cook" width="17%" align="center">烹饪</th>
+                <th field="better" width="17%" align="center">相生</th>
+                <th field="worse" width="17%" align="center">相克</th>
+                <th field="health" width="17%" align="center">保健作用</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="dlg-foodAdd" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-foodAdd-btn" align="center" data-options="modal:true">
+        <form id="fm-foodAdd" method="post" novalidate>
+            <table class="pattern" border="0" cellpadding="5" cellspacing="0">
+              <tr>
+				<th width="100px">食品类别：</th>
+				<td colspan="3"><input type="text" id="species" name="species" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">食品名称：</th>
+				<td colspan="3"><input type="text" id="name" name="name" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">别名：</th>
+				<td colspan="3"><input type="text" id="othername" name="othername" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">营养功效：</th>
+				<td colspan="3"><input type="text" id="effect" name="effect" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">适宜人群：</th>
+				<td colspan="3"><input type="text" id="suitable" name="suitable" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">不宜人群：</th>
+				<td colspan="3"><input type="text" id="unsuited" name="unsuited" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">选购：</th>
+				<td colspan="3"><input type="text" id="choose" name="choose" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">储存：</th>
+				<td colspan="3"><input type="text" id="store" name="store" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">烹饪：</th>
+				<td colspan="3"><input type="text" id="cook" name="cook" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">相生：</th>
+				<td colspan="3"><input type="text" id="better" name="better" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">相克：</th>
+				<td colspan="3"><input type="text" id="worse" name="worse" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">保健作用：</th>
+				<td colspan="3"><input type="text" id="health" name="health" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+            </table>
+        </form>
+    </div>
+    <div id="dlg-foodAdd-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="foodAddSave()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-foodAdd').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <div id="dlg-foodEdit" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-foodEdit-btn" align="center" data-options="modal:true">
+        <form id="fm-foodEdit" method="post" novalidate>
+            <table class="pattern" border="0">
+			 <tr>
+				<th width="100px">食品类别：</th>
+				<td colspan="3"><input type="text" id="species" name="species" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">食品名称：</th>
+				<td colspan="3"><input type="text" id="name" name="name" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">别名：</th>
+				<td colspan="3"><input type="text" id="othername" name="othername" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">营养功效：</th>
+				<td colspan="3"><input type="text" id="effect" name="effect" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">适宜人群：</th>
+				<td colspan="3"><input type="text" id="suitable" name="suitable" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">不宜人群：</th>
+				<td colspan="3"><input type="text" id="unsuited" name="unsuited" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">选购：</th>
+				<td colspan="3"><input type="text" id="choose" name="choose" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">储存：</th>
+				<td colspan="3"><input type="text" id="store" name="store" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">烹饪：</th>
+				<td colspan="3"><input type="text" id="cook" name="cook" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">相生：</th>
+				<td colspan="3"><input type="text" id="better" name="better" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">相克：</th>
+				<td colspan="3"><input type="text" id="worse" name="worse" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">保健作用：</th>
+				<td colspan="3"><input type="text" id="health" name="health" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <input type="hidden" name="id" />
+			</table>
+        </form>
+    </div>
+    <div id="dlg-foodEdit-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="foodEditSave()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-foodEdit').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <div id="dlg-foodReadonly" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-foodReadonly-btn" align="center" data-options="modal:true">
+        <form id="fm-foodReadonly" method="post" novalidate>
+            <table class="pattern" border="0" cellpadding="5" cellspacing="0">
+			 <tr>
+				<th width="100px">食品类别：</th>
+				<td colspan="3"><input type="text" id="species" name="species" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">食品名称：</th>
+				<td colspan="3"><input type="text" id="name" name="name" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">别名：</th>
+				<td colspan="3"><input type="text" id="othername" name="othername" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">营养功效：</th>
+				<td colspan="3"><input type="text" id="effect" name="effect" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">适宜人群：</th>
+				<td colspan="3"><input type="text" id="suitable" name="suitable" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">不宜人群：</th>
+				<td colspan="3"><input type="text" id="unsuited" name="unsuited" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">选购：</th>
+				<td colspan="3"><input type="text" id="choose" name="choose" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">储存：</th>
+				<td colspan="3"><input type="text" id="store" name="store" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">烹饪：</th>
+				<td colspan="3"><input type="text" id="cook" name="cook" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">相生：</th>
+				<td colspan="3"><input type="text" id="better" name="better" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">相克：</th>
+				<td colspan="3"><input type="text" id="worse" name="worse" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">保健作用：</th>
+				<td colspan="3"><input type="text" id="health" name="health" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <input type="hidden" name="id" />
+			</table>
+        </form>
+    </div>
+    <div id="dlg-foodReadonly-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-foodReadonly').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <script type="text/javascript">
+    $(document).ready(function() {
+      
+
+        $("#food-table").datagrid({
+            //双击事件  
+            onDblClickRow: function(index, row) {
+                if (row) {
+                    $('#dlg-foodReadonly').dialog('open').dialog('center').dialog('setTitle', '查看食物相生相克信息');
+                    $('#fm-foodReadonly').form('load', row);
+                }
+            }
+        });
+
+    });
+
+    function foodAdd() {
+        $('#dlg-foodAdd').dialog('open').dialog('center').dialog('setTitle', '添加食物相生相克信息');
+        $('#fm-foodAdd').form('clear');
+    }
+
+    function foodAddSave() {
+        $('#fm-foodAdd').form('submit', {
+            url: '../xhFood/add',
+            onSubmit: function() {
+                //进行表单验证
+                //如果返回false阻止提交
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                if (data.result == 'success') {
+                    $('#dlg-foodAdd').dialog('close');
+                    $('#food-table').datagrid('reload');
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+
+    }
+
+    function foodEdit() {
+        var row = $('#food-table').datagrid('getSelected');
+        if (row) {
+            $('#dlg-foodEdit').dialog('open').dialog('center').dialog('setTitle', '修改食物相生相克信息');
+            $('#fm-foodEdit').form('load', row);
+        }
+    }
+
+    function foodEditSave() {
+        $('#fm-foodEdit').form('submit', {
+            url: '../xhFood/update',
+            onSubmit: function() {
+                //进行表单验证
+                //如果返回false阻止提交
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                if (data.result == 'success') {
+                    $('#dlg-foodEdit').dialog('close');
+                    $('#food-table').datagrid('reload');
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+    }
+
+    function foodDestroy() {
+        var row = $('#food-table').datagrid('getSelected');
+        if (row) {
+            $.messager.confirm('删除', '是否彻底删除该食物相生相克信息？？？', function(r) {
+                if (r) {
+                    $.post('../xhFood/delete', {
+                        id: row.id
+                    }, function(data) {
+                        if (data.result == 'success') {
+                            $('#food-table').datagrid('reload'); // reload the user data
+                            $.messager.show({ // show error message
+                                title: '操作完成',
+                                msg: data.description
+                            });
+                        } else {
+                            $.messager.show({ // show error message
+                                title: '出错了',
+                                msg: data.description
+                            });
+                        }
+                    }, 'json');
+                }
+            });
+        }
+    }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "text": "管理员管理",
+		"iconCls":"icon-department",
+        "attributes": {
+            "url": "xhAdminUser"
+        }
+    },
+	{
+        "id": 2,
+        "text": "管理员操作日志",
+		"iconCls":"icon-post",
+        "attributes": {
+            "url": "xhAdminUserOptlog"
+        }
+    }
+]

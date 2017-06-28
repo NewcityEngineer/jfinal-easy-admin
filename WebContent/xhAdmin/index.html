@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>心e健康管理系统</title>
+     <link rel="shortcut icon" href="../xhAdmin/images/xine.png">
+    <link rel="stylesheet" type="text/css" href="css/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="css/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="css/themes/color.css">
+    <link rel="stylesheet" type="text/css" href="css/demo/demo.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
+    <style>
+    #t1 .tree-node,
+    #t2 .tree-node,
+    #t3 .tree-node,
+    #t4 .tree-node,
+    #t5 .tree-node,
+    #t6 .tree-node,
+    #t7 .tree-node,
+    #t8 .tree-node,
+    #t9 .tree-node,
+    #t10 .tree-node {
+        height: 40px;
+    }
+    </style>
+</head>
+
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false" style="height:120px;">
+        <div style="float:left;">
+            <img src="images/xinehealth.jpg" style="width: 455px;height: 119px;"></div>
+        <div style="float:right;">
+            <a class="easyui-linkbutton" iconCls="icon-clear" plain="true" onclick="admin_logout()">退出</a>
+            <a class="easyui-linkbutton" iconCls="icon-rank" plain="true">欢迎您</a>
+        </div>
+    </div>
+    <div data-options="region:'south',split:true,border:false" style="height:25px; text-align:center">2016 &copy; 心e科技.</div>
+    <div data-options="region:'east',split:true,collapsed:true" title="在线交流" style="width:200px;"></div>
+    <div data-options="region:'west',split:true" title="功能导航" style="width:17%;">
+        <!--手风琴-->
+        <div class="easyui-accordion" data-options="fit:true,border:false" style="width:100%;height:600px;">
+            <div title="基础数据" style="padding:10px;">
+                <ul class="easyui-tree" id="t1"></ul>
+            </div>
+            
+            <div title="相生相克信息管理" style="padding:10px;">
+                <ul class="easyui-tree" id="t2"></ul>
+            </div>
+            <div title="网络爬虫信息管理" style="padding:10px;">
+                <ul class="easyui-tree" id="t3"></ul>
+            </div>
+            <div title="常用链接管理" style="padding:10px;">
+                <ul class="easyui-tree" id="t4"></ul>
+            </div>
+            <div title="定时提醒信息管理" style="padding:10px;">
+                <ul class="easyui-tree" id="t5"></ul>
+            </div>
+            <div title="用户信息管理" style="padding:10px;">
+                <ul class="easyui-tree" id="t6"></ul>
+            </div>
+             <div title="管理员信息" style="padding:10px;">
+                <ul class="easyui-tree" id="t7"></ul>
+            </div>
+        </div>  
+        <!--手风琴结束-->
+    </div>
+    <div data-options="region:'center',title:'主功能区',iconCls:'icon-ok'" style="height:600px;">
+        <div id="tb" class="easyui-tabs" data-options="fit:true,border:false" style="width:auto;height:250px">
+        </div>
+    </div>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#t1').tree({
+            url: 'menuJson/framework.json',
+            method: 'get'
+        });
+        $('#t2').tree({
+            url: 'menuJson/relation.json',
+            method: 'get'
+        });
+        $('#t3').tree({
+            url: 'menuJson/internetWorm.json',
+            method: 'get'
+        });
+        $('#t4').tree({
+            url: 'menuJson/linking.json',
+            method: 'get'
+        });
+        $('#t5').tree({
+            url: 'menuJson/timer.json',
+            method: 'get'
+        });
+        $('#t6').tree({
+            url: 'menuJson/userinfo.json',
+            method: 'get'
+        });
+        $('#t7').tree({
+            url: 'menuJson/admin.json',
+            method: 'get'
+        });
+
+        $('.easyui-tree').tree({
+            onClick: function(node) {
+
+                if (node.attributes && node.attributes.url) {
+                    var exists = $('#tb').tabs('exists', node.text); //判断是否存在tab，不存在添加，存在则选取这个tab
+
+                    $('#tb').tabs(exists ? 'select' : 'add', exists ? node.text : {
+                        title: node.text,
+                        href: node.attributes.url,
+                        closable: true
+                    });
+
+                } else {
+                    alert('该网页正在建设中');
+                };
+            }
+        });
+    });
+
+    function admin_logout() {
+        $.ajax({
+            type: "get",
+            url: "logout",
+            data: {},
+            success: function(data) {
+                location.replace('../xhAdmin/');
+            }
+        });
+    }
+    
+    </script>
+</body>
+
+</html>

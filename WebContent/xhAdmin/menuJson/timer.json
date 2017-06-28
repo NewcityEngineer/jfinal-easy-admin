@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "text": "微信平台提醒",
+		"iconCls":"icon-department",
+        "attributes": {
+            "url": ""
+        }
+    },
+	{
+        "id": 2,
+        "text": "短信提醒",
+		"iconCls":"icon-post",
+        "attributes": {
+            "url": ""
+        }
+    }
+]

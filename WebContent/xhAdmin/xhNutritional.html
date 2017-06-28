@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>健康食谱</title>
+      <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/color.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/demo/demo.css">
+    <script type="text/javascript" src="../xhAdmin/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../xhAdmin/js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+    <div id="toolbar-nutritional">
+        <a href="javascript:void(0)" id="nutritionalAddBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="nutritionalAdd()">添加</a>
+        <a href="javascript:void(0)" id="nutritionalEditBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="nutritionalEdit()">修改</a>
+        <a href="javascript:void(0)" id="nutritionalDestroyBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="nutritionalDestroy()">删除</a>
+    </div>
+    <table id="nutritional-table" class="easyui-datagrid" data-options="fit:true,border:false,url:'../xhNutritional/all',method:'get'" style="width:auto;height:100%" toolbar="#toolbar-nutritional" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true" pageSize="20">
+        <thead>
+            <tr>
+               <th field="food_style_ingreId" width="16%" align="center">关联食材编码</th>
+                <th field="heat" width="17%" align="center">热量/千焦</th>
+                <th field="protein" width="17%" align="center">蛋白质/克</th>
+                <th field="fat" width="17%" align="center">脂肪/克</th>
+                <th field="carbohydrates" width="17%" align="center">碳水化合物/克</th>
+                <th field="vitaminB1" width="17%" align="center">维生素B1/毫克</th>
+                <th field="vitaminB2" width="17%" align="center">维生素B2/毫克</th>
+                <th field="vitaminE" width="17%" align="center">维生素E/毫克</th>
+                <th field="calcium" width="17%" align="center">钙/毫克</th>
+                <th field="potassium" width="17%" align="center">钾/毫克</th>
+                <th field="phosphorus" width="17%" align="center">磷/毫克</th>
+                <th field="sodium" width="17%" align="center">钠/毫克</th>
+                <th field="magnesium" width="17%" align="center">镁/毫克</th>
+                <th field="iron" width="17%" align="center">铁/毫克</th>
+                <th field="zinc" width="17%" align="center">锌/毫克</th>
+                <th field="oldTime" width="17%" align="center">最开始更改时间</th>
+                <th field="newTime" width="17%" align="center">最新更改时间</th>
+                <th field="timestamp" width="17%" align="center">时间戳</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="dlg-nutritionalAdd" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-nutritionalAdd-btn" align="center" data-options="modal:true">
+        <form id="fm-nutritionalAdd" method="post" novalidate>
+            <table class="pattern" border="0" cellpadding="5" cellspacing="0">
+              <tr>
+				<th width="100px">所属食材：</th>
+				<td colspan="3"><select class="easyui-combotree" name="food_style_ingreId" id="food_style_ingreId" style="width:100%;" data-options="url:'../xhIngredients/getJsonTreeData',method:'get',valueField:'id'" /></td>
+				
+				<th width="100px">热量/千焦：</th>
+				<td colspan="3"><input type="text" id="heat" name="heat" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">蛋白质/克：</th>
+				<td colspan="3"><input type="text" id="protein" name="protein" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">脂肪/克：</th>
+				<td colspan="3"><input type="text" id="fat" name="fat" class="easyui-textbox" style="width:100%"></td>					
+				<th width="100px">碳水化合物/克：</th>
+				<td colspan="3"><input type="text" id="carbohydrates" name="carbohydrates" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">维生素B1/毫克：</th>
+				<td colspan="3"><input type="text" id="vitaminB1" name="vitaminB1" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			
+			 <tr>
+				<th width="100px">维生素B2/毫克：</th>
+				<td colspan="3"><input type="text" id="vitaminB2" name="vitaminB2" class="easyui-textbox" style="width:100%"></td>					
+				<th width="100px">维生素E/毫克：</th>
+				<td colspan="3"><input type="text" id="vitaminE" name="vitaminE" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">钙/毫克：</th>
+				<td colspan="3"><input type="text" id="calcium" name="calcium" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">钾/毫克：</th>
+				<td colspan="3"><input type="text" id="potassium" name="potassium" class="easyui-textbox" style="width:100%"></td>					
+				<th width="100px">磷/毫克：</th>
+				<td colspan="3"><input type="text" id="phosphorus" name="phosphorus" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">钠/毫克：</th>
+				<td colspan="3"><input type="text" id="sodium" name="sodium" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">镁/毫克：</th>
+				<td colspan="3"><input type="text" id="magnesium" name="magnesium" class="easyui-textbox" style="width:100%"></td>					
+				<th width="100px">铁/毫克：</th>
+				<td colspan="3"><input type="text" id="iron" name="iron" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">锌/毫克：</th>
+				<td colspan="3"><input type="text" id="zinc" name="zinc" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			
+            </table>
+        </form>
+    </div>
+    <div id="dlg-nutritionalAdd-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="nutritionalAddSave()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-nutritionalAdd').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <div id="dlg-nutritionalEdit" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-nutritionalEdit-btn" align="center" data-options="modal:true">
+        <form id="fm-nutritionalEdit" method="post" novalidate>
+            <table class="pattern" border="0">
+			  <tr>
+				<th width="100px">所属食材：</th>
+				<td colspan="3"><select class="easyui-combotree" name="food_style_ingreId" id="food_style_ingreId" style="width:100%;" data-options="url:'../xhIngredients/getJsonTreeData',method:'get',valueField:'id'" /></td>
+				
+				<th width="100px">热量/千焦：</th>
+				<td colspan="3"><input type="text" id="heat" name="heat" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">蛋白质/克：</th>
+				<td colspan="3"><input type="text" id="protein" name="protein" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">脂肪/克：</th>
+				<td colspan="3"><input type="text" id="fat" name="fat" class="easyui-textbox" style="width:100%"></td>					
+				<th width="100px">碳水化合物/克：</th>
+				<td colspan="3"><input type="text" id="carbohydrates" name="carbohydrates" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">维生素B1/毫克：</th>
+				<td colspan="3"><input type="text" id="vitaminB1" name="vitaminB1" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			
+			 <tr>
+				<th width="100px">维生素B2/毫克：</th>
+				<td colspan="3"><input type="text" id="vitaminB2" name="vitaminB2" class="easyui-textbox" style="width:100%"></td>					
+				<th width="100px">维生素E/毫克：</th>
+				<td colspan="3"><input type="text" id="vitaminE" name="vitaminE" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">钙/毫克：</th>
+				<td colspan="3"><input type="text" id="calcium" name="calcium" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">钾/毫克：</th>
+				<td colspan="3"><input type="text" id="potassium" name="potassium" class="easyui-textbox" style="width:100%"></td>					
+				<th width="100px">磷/毫克：</th>
+				<td colspan="3"><input type="text" id="phosphorus" name="phosphorus" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">钠/毫克：</th>
+				<td colspan="3"><input type="text" id="sodium" name="sodium" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">镁/毫克：</th>
+				<td colspan="3"><input type="text" id="magnesium" name="magnesium" class="easyui-textbox" style="width:100%"></td>					
+				<th width="100px">铁/毫克：</th>
+				<td colspan="3"><input type="text" id="iron" name="iron" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">锌/毫克：</th>
+				<td colspan="3"><input type="text" id="zinc" name="zinc" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+            <input type="hidden" name="id" />
+            <input type="hidden" name="timestamp" />
+			</table>
+        </form>
+    </div>
+    <div id="dlg-nutritionalEdit-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="nutritionalEditSave()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-nutritionalEdit').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <div id="dlg-nutritionalReadonly" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-nutritionalReadonly-btn" align="center" data-options="modal:true">
+        <form id="fm-nutritionalReadonly" method="post" novalidate>
+            <table class="pattern" border="0" cellpadding="5" cellspacing="0">
+			 <tr>
+				<th width="100px">所属食材：</th>
+				<td colspan="3"><select class="easyui-combotree" name="food_style_ingreId" id="food_style_ingreId" style="width:100%;" data-options="url:'../xhIngredients/getJsonTreeData',method:'get',valueField:'id'" /></td>
+				
+				<th width="100px">热量/千焦：</th>
+				<td colspan="3"><input type="text" id="heat" name="heat" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">蛋白质/克：</th>
+				<td colspan="3"><input type="text" id="protein" name="protein" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">脂肪/克：</th>
+				<td colspan="3"><input type="text" id="fat" name="fat" class="easyui-textbox" style="width:100%"></td>					
+				<th width="100px">碳水化合物/克：</th>
+				<td colspan="3"><input type="text" id="carbohydrates" name="carbohydrates" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">维生素B1/毫克：</th>
+				<td colspan="3"><input type="text" id="vitaminB1" name="vitaminB1" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			
+			 <tr>
+				<th width="100px">维生素B2/毫克：</th>
+				<td colspan="3"><input type="text" id="vitaminB2" name="vitaminB2" class="easyui-textbox" style="width:100%"></td>					
+				<th width="100px">维生素E/毫克：</th>
+				<td colspan="3"><input type="text" id="vitaminE" name="vitaminE" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">钙/毫克：</th>
+				<td colspan="3"><input type="text" id="calcium" name="calcium" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">钾/毫克：</th>
+				<td colspan="3"><input type="text" id="potassium" name="potassium" class="easyui-textbox" style="width:100%"></td>					
+				<th width="100px">磷/毫克：</th>
+				<td colspan="3"><input type="text" id="phosphorus" name="phosphorus" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">钠/毫克：</th>
+				<td colspan="3"><input type="text" id="sodium" name="sodium" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			 <tr>
+				<th width="100px">镁/毫克：</th>
+				<td colspan="3"><input type="text" id="magnesium" name="magnesium" class="easyui-textbox" style="width:100%"></td>					
+				<th width="100px">铁/毫克：</th>
+				<td colspan="3"><input type="text" id="iron" name="iron" class="easyui-textbox" style="width:100%"></td>
+				<th width="100px">锌/毫克：</th>
+				<td colspan="3"><input type="text" id="zinc" name="zinc" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+            <input type="hidden" name="id" />
+            <input type="hidden" name="timestamp" />
+			</table>
+        </form>
+    </div>
+    <div id="dlg-nutritionalReadonly-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-nutritionalReadonly').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        /*$.post('/jg/checkScope', {
+            sessionName: 'f9'
+        }, function(data) {
+            if (data == false) {
+                $('#toolbar-nutritional #nutritionalAddBtn').hide();
+                $('#toolbar-nutritional #nutritionalEditBtn').hide();
+                $('#toolbar-nutritional #nutritionalDestroyBtn').hide();
+            }
+        }, 'json');*/
+
+        $("#nutritional-table").datagrid({
+            //双击事件  
+            onDblClickRow: function(index, row) {
+                if (row) {
+                    $('#dlg-nutritionalReadonly').dialog('open').dialog('center').dialog('setTitle', '查看食谱信息');
+                    $('#fm-nutritionalReadonly').form('load', row);
+                }
+            }
+        });
+
+    });
+
+    function nutritionalAdd() {
+        $('#dlg-nutritionalAdd').dialog('open').dialog('center').dialog('setTitle', '添加食材营养成分信息');
+        $('#fm-nutritionalAdd').form('clear');
+    }
+
+    function nutritionalAddSave() {
+        $('#fm-nutritionalAdd').form('submit', {
+            url: '../xhNutritional/add',
+            onSubmit: function() {
+                //进行表单验证
+                //如果返回false阻止提交
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                if (data.result == 'success') {
+                    $('#dlg-nutritionalAdd').dialog('close');
+                    $('#nutritional-table').datagrid('reload');
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+
+    }
+
+    function nutritionalEdit() {
+        var row = $('#nutritional-table').datagrid('getSelected');
+        if (row) {
+            $('#dlg-nutritionalEdit').dialog('open').dialog('center').dialog('setTitle', '修改食材营养成分信息');
+            $('#fm-nutritionalEdit').form('load', row);
+        }
+    }
+
+    function nutritionalEditSave() {
+        $('#fm-nutritionalEdit').form('submit', {
+            url: '../xhNutritional/update',
+            onSubmit: function() {
+                //进行表单验证
+                //如果返回false阻止提交
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                if (data.result == 'success') {
+                    $('#dlg-nutritionalEdit').dialog('close');
+                    $('#nutritional-table').datagrid('reload');
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+    }
+
+    function nutritionalDestroy() {
+        var row = $('#nutritional-table').datagrid('getSelected');
+        if (row) {
+            $.messager.confirm('删除', '是否彻底删除该食材营养成分信息？？？', function(r) {
+                if (r) {
+                    $.post('../xhNutritional/delete', {
+                        id: row.id
+                    }, function(data) {
+                        if (data.result == 'success') {
+                            $('#nutritional-table').datagrid('reload'); // reload the user data
+                            $.messager.show({ // show error message
+                                title: '操作完成',
+                                msg: data.description
+                            });
+                        } else {
+                            $.messager.show({ // show error message
+                                title: '出错了',
+                                msg: data.description
+                            });
+                        }
+                    }, 'json');
+                }
+            });
+        }
+    }
+    </script>
+</body>
+
+</html>

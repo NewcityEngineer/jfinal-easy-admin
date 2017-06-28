@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>管理员信息</title>
+      <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/color.css">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/demo/demo.css">
+    <script type="text/javascript" src="../xhAdmin/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../xhAdmin/js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+    <div id="toolbar-adminUser">
+        <a href="javascript:void(0)" id="adminUserAddBtn" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="adminUserAdd()">添加</a>
+        <a href="javascript:void(0)" id="adminUserEditBtn" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="adminUserEdit()">修改</a>
+        <a href="javascript:void(0)" id="adminUserDestroyBtn" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="adminUserDestroy()">删除</a>
+    </div>
+    <table id="adminUser-table" class="easyui-datagrid" data-options="fit:true,border:false,url:'../xhAdminUser/all',method:'get'" style="width:auto;height:100%" toolbar="#toolbar-adminUser" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true" pageSize="20">
+        <thead>
+            <tr>
+              	<th field="userId" width="30%" align="center">用户登录名</th>
+              	<th field="userPwd" width="30%" align="center">用户密码</th>
+                <th field="name" width="40%" align="center">用户名</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="dlg-adminUserAdd" class="easyui-dialog" style="width:650px;height:auto;padding:1px 1px" closed="true" buttons="#dlg-adminUserAdd-btn" align="center" data-options="modal:true">
+        <form id="fm-adminUserAdd" method="post" novalidate>
+            <table class="pattern" border="0">
+              <tr>
+				<th width="18%">用户登录名：</th>
+				<td width="32%"><input type="text" id="userId" name="userId" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">用户密码：</th>
+				<td width="32%"><input type="text" id="userPwd" name="userPwd" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				<th width="18%">用户名：</th>
+				<td width="32%"><input type="text" id="name" name="name" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			
+            </table>
+        </form>
+    </div>
+    <div id="dlg-adminUserAdd-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="adminUserAddSave()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-adminUserAdd').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <div id="dlg-adminUserEdit" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-adminUserEdit-btn" align="center" data-options="modal:true">
+        <form id="fm-adminUserEdit" method="post" novalidate>
+            <table class="pattern" border="0">
+			 <tr>
+				<th width="18%">用户登录名：</th>
+				<td width="32%"><input type="text" id="userId" name="userId" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">用户密码：</th>
+				<td width="32%"><input type="text" id="userPwd" name="userPwd" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				<th width="18%">用户名：</th>
+				<td width="32%"><input type="text" id="name" name="name" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+            <input type="hidden" name="id" />
+            <input type="hidden" name="timestamp" />
+			</table>
+        </form>
+    </div>
+    <div id="dlg-adminUserEdit-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="adminUserEditSave()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-adminUserEdit').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <div id="dlg-adminUserReadonly" class="easyui-dialog" style="width:650px;height:393px;padding:1px 1px" closed="true" buttons="#dlg-adminUserReadonly-btn" align="center" data-options="modal:true">
+        <form id="fm-adminUserReadonly" method="post" novalidate>
+            <table class="pattern" border="0">
+			  <tr>
+				<th width="18%">用户登录名：</th>
+				<td width="32%"><input type="text" id="userId" name="userId" class="easyui-textbox" style="width:100%"></td>
+				<th width="18%">用户密码：</th>
+				<td width="32%"><input type="text" id="userPwd" name="userPwd" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+			<tr>
+				<th width="18%">用户名：</th>
+				<td width="32%"><input type="text" id="name" name="name" class="easyui-textbox" style="width:100%"></td>
+			</tr>
+            <input type="hidden" name="id" />
+            <input type="hidden" name="timestamp" />
+			</table>
+        </form>
+    </div>
+    <div id="dlg-adminUserReadonly-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-adminUserReadonly').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        /*$.post('/jg/checkScope', {
+            sessionName: 'f9'
+        }, function(data) {
+            if (data == false) {
+                $('#toolbar-adminUser #adminUserAddBtn').hide();
+                $('#toolbar-adminUser #adminUserEditBtn').hide();
+                $('#toolbar-adminUser #adminUserDestroyBtn').hide();
+            }
+        }, 'json');*/
+
+        $("#adminUser-table").datagrid({
+            //双击事件  
+            onDblClickRow: function(index, row) {
+                if (row) {
+                    $('#dlg-adminUserReadonly').dialog('open').dialog('center').dialog('setTitle', '查看常用链接信息');
+                    $('#fm-adminUserReadonly').form('load', row);
+                }
+            }
+        });
+
+    });
+
+    function adminUserAdd() {
+        $('#dlg-adminUserAdd').dialog('open').dialog('center').dialog('setTitle', '添加管理员');
+        $('#fm-adminUserAdd').form('clear');
+    }
+
+    function adminUserAddSave() {
+        $('#fm-adminUserAdd').form('submit', {
+            url: '../xhAdminUser/add',
+            onSubmit: function() {
+                //进行表单验证
+                //如果返回false阻止提交
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                if (data.result == 'success') {
+                    $('#dlg-adminUserAdd').dialog('close');
+                    $('#adminUser-table').datagrid('reload');
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+
+    }
+
+    function adminUserEdit() {
+        var row = $('#adminUser-table').datagrid('getSelected');
+        if (row) {
+            $('#dlg-adminUserEdit').dialog('open').dialog('center').dialog('setTitle', '修改管理员');
+            $('#fm-adminUserEdit').form('load', row);
+        }
+    }
+
+    function adminUserEditSave() {
+        $('#fm-adminUserEdit').form('submit', {
+            url: '../xhAdminUser/update',
+            onSubmit: function() {
+                //进行表单验证
+                //如果返回false阻止提交
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                if (data.result == 'success') {
+                    $('#dlg-adminUserEdit').dialog('close');
+                    $('#adminUser-table').datagrid('reload');
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+    }
+
+    function adminUserDestroy() {
+        var row = $('#adminUser-table').datagrid('getSelected');
+        if (row) {
+            $.messager.confirm('删除', '是否彻底删除该管理员？？？', function(r) {
+                if (r) {
+                    $.post('../xhAdminUser/delete', {
+                        id: row.id
+                    }, function(data) {
+                        if (data.result == 'success') {
+                            $('#adminUser-table').datagrid('reload'); // reload the user data
+                            $.messager.show({ // show error message
+                                title: '操作完成',
+                                msg: data.description
+                            });
+                        } else {
+                            $.messager.show({ // show error message
+                                title: '出错了',
+                                msg: data.description
+                            });
+                        }
+                    }, 'json');
+                }
+            });
+        }
+    }
+    </script>
+</body>
+
+</html>

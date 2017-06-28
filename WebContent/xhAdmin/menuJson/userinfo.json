@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "text": "用户基本信息",
+		"iconCls":"icon-department",
+        "attributes": {
+            "url": ""
+        }
+    },
+	{
+        "id": 2,
+        "text": "个人信息收藏",
+		"iconCls":"icon-post",
+        "attributes": {
+            "url": ""
+        }
+    },
+	{
+        "id": 3,
+        "text": "个人分享",
+		"iconCls":"icon-rank",
+        "attributes": {
+            "url": ""
+        }
+    },
+	{
+        "id": 4,
+        "text": "用户论坛信息",
+		"iconCls":"icon-rank",
+        "attributes": {
+            "url": ""
+        }
+    },
+	{
+        "id": 5,
+        "text": "游戏维护",
+		"iconCls":"icon-rank",
+        "attributes": {
+            "url": ""
+        }
+    }
+]

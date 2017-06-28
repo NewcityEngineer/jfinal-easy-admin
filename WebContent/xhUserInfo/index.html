@@ -1,0 +1,73 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>信息填写</title>
+        <link rel="stylesheet" type="text/css" href="themes/material/easyui.css">
+        <link rel="stylesheet" type="text/css" href="themes/mobile.css">
+        <link rel="stylesheet" type="text/css" href="themes/icon.css">
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.easyui.min.js"></script>
+        <script type="text/javascript" src="jquery.easyui.mobile.js"></script>
+    </head>
+    <body>
+        <div class="easyui-navpanel" style="position:relative;padding:20px;background-color:#68CA79">
+        
+            <!--<header>
+                <div class="m-toolbar">
+                    <div class="m-title">Basic Form</div>
+                    <div class="m-right">
+                        <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" outline="true" onclick="$('#ff').form('reset')" style="width:60px">Reset</a>
+                    </div>
+                </div>
+            </header>-->
+            <form id="ff" style=" margin-top:100px;">
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" label="<b>姓名:</b>" prompt="姓 名" style="width:100%">
+                </div>
+                <div style="margin-bottom:10px">        
+		<select class="easyui-combobox" name="sex" style="width:100%;" data-options="label: '<b>性别:</b>',labelPosition: 'left'">
+        
+        <option value="0">男</option>
+        <option value="1">女</option>
+        </select>
+                </div>
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" label="<b>联系方式:</b>" prompt="联系方式" style="width:100%">
+                </div>
+                
+                <div style="margin-bottom:10px">
+                                    <input class="easyui-numberspinner" style="width:100%;" data-options="
+                        label: '<b>年龄:</b>',
+                        labelPosition: 'left',
+                        value: 10,
+                        increment: 1
+                        ">
+                </div>
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" label="<b>常住地址:</b>" prompt="常住地址" style="width:100%">
+                </div>
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" label="<b>职业:</b>" prompt="职业" style="width:100%">
+                </div>
+                
+                
+               
+                
+            </form>
+            <div style="text-align:center;padding:5px">
+	    	<a href="javascript:void(0)" class="easyui-linkbutton c1" onclick="submitForm()" style="width:80px">提交</a>
+	    	<a href="javascript:void(0)" class="easyui-linkbutton c1" onclick="clearForm()" style="width:80px">重置</a>
+	    </div>
+        </div>
+        	<script>
+		function submitForm(){
+			$('#ff').form('submit');
+		}
+		function clearForm(){
+			$('#ff').form('clear');
+		}
+	</script>
+    </body>
+    </html>

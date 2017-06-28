@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "text": "一级分类录入",
+		"iconCls":"icon-department",
+        "attributes": {
+            "url": "oneLevel_Category"
+        }
+    },
+	{
+        "id": 2,
+        "text": "二级分类录入",
+		"iconCls":"icon-department",
+        "attributes": {
+            "url": "twoLevel_Category"
+        }
+    },
+	{
+        "id": 3,
+        "text": "健康食谱",
+		"iconCls":"icon-department",
+        "attributes": {
+            "url": "xhRecipe"
+        }
+    },
+	{
+        "id": 4,
+        "text": "食材信息",
+		"iconCls":"icon-department",
+        "attributes": {
+            "url": "xhIngredients"
+        }
+    },
+	{
+        "id": 5,
+        "text": "营养含量信息",
+		"iconCls":"icon-department",
+        "attributes": {
+            "url": "xhNutritional"
+        }
+    },
+	{
+        "id": 6,
+        "text": "经典食谱信息",
+		"iconCls":"icon-department",
+        "attributes": {
+            "url": "xhClassicRecipe"
+        }
+    }
+]

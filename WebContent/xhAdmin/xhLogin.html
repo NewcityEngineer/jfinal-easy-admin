@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>心e健康数据管理系统</title>
+    <link rel="shortcut icon" href="../xhAdmin/images/xine.png">
+    <link rel="stylesheet" type="text/css" href="../xhAdmin/css/themes/default/easyui.css">
+    <script type="text/javascript" src="../xhAdmin/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../xhAdmin/js/jquery.easyui.min.js"></script>
+    <style type="text/css">
+    #container {
+        height: 950px;
+        width: 1280px;
+        margin-right: auto;
+        margin-left: auto;
+        background-image: url(../xhAdmin/images/bg.jpg);
+    }
+    
+    #header {
+       
+        height: 340px;
+    }
+    
+    #left {
+     
+        float: left;
+        height: 610px;
+        width: 646px;
+    }
+    
+    #content {
+        float: left;
+        height: 610px;
+        width: 424px;
+    }
+    
+    #right {
+       
+        float: left;
+        height: 610px;
+        width: 210px;
+    }
+    
+    #login {
+        background-image: url(../xhAdmin/images/1280lg_03.jpg);
+        float: left;
+        height: 289px;
+        width: 424px;
+    }
+    
+    #bottom {
+       
+        clear: both;
+        float: left;
+        height: 321px;
+        width: 424px;
+    }
+    </style>
+</head>
+
+<body bgcolor="#7ac1e0" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+    <div id="container">
+        <div id="header"></div>
+        <div id="left"></div>
+        <div id="content">
+            <div id="login">
+                <div class="easyui-panel" style="width:424px;height: 289px;padding:30px 60px;">
+                    <form id="fm-xh_login" method="post" novalidate>
+                        <div style="margin-bottom:60px">
+                            <label><b>登录名：</b></label>
+                            <input class="easyui-textbox" id="userId" name="userId" labelPosition="top" style="width:80%;height:25px"  data-options="prompt:'登录账号',iconCls:'icon-man',iconWidth:38,required:true" missingMessage="登录账号不能为空！">
+                        </div>
+                        <div style="margin-bottom:60px">
+                            <label><b>密&nbsp;码：</b></label>
+                            <input class="easyui-textbox" type="password" id="userPwd" name="userPwd" labelPosition="top" style="width:80%;height:25px" data-options="prompt:'登录密码',iconCls:'icon-lock',iconWidth:38,required:true" missingMessage="登录密码不能为空！">
+                        </div>
+                    </form>
+                    <div style="text-align:center;padding:5px 0">
+                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="xh_login_submitForm()" style="width:100%">登录</a>
+                    </div>
+                </div>
+            </div>
+            <div id="bottom"></div>
+        </div>
+        <div id="right"></div>
+    </div>
+    <script>
+    function xh_login_submitForm() {
+        $('#fm-xh_login').form('submit', {
+            url: 'login',
+            onSubmit: function() {
+                //进行表单验证  
+                //如果返回false阻止提交  
+                return $(this).form('enableValidation').form('validate');
+            },
+            success: function(data) {
+                var data = eval('(' + data + ')'); // change the JSON string to javascript object 
+                if (data.result == 'success') {
+                    $.messager.show({ // show error message
+                        title: '操作完成',
+                        msg: data.description
+                    });
+
+                    location.replace('../xhAdmin/');
+                } else {
+                    $.messager.show({ // show error message
+                        title: '出错了',
+                        msg: data.description
+                    });
+                }
+            }
+        });
+    }
+    
+    
+
+    </script>
+</body>
+
+</html>
