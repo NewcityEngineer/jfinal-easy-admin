@@ -42,8 +42,8 @@ public class XineHealthMenuManager  {
 		ApiConfig ac = new ApiConfig();
 
 		// 配置微信 API 相关常量
-		ac.setAppId("wxdd00e7782b7a7890");
-		ac.setAppSecret("f7e98d1d340a9018266864ae8f298585");
+		ac.setAppId("***");
+		ac.setAppSecret("****");
 		ApiConfigKit.setThreadLocalApiConfig(ac);
 
 		//创建菜单
@@ -61,8 +61,8 @@ public class XineHealthMenuManager  {
 	 * @return 
 	 */  
 	private static Menu getTestMenu() {  
-		String appId="wxdd00e7782b7a7890";
-		String oauth_redirect_uri="xinehealth.xinewang.com";
+		String appId="****";
+		String oauth_redirect_uri="***";
 		
 		
 		ViewButton btn11 = new ViewButton();
