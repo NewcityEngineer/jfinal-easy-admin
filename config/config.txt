@@ -1,28 +1,19 @@
 #外网
-jdbcUrl = jdbc:mysql://582b1ada5107a.bj.cdb.myqcloud.com:4063/xine_health?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
-user = xine_health_user
-password = xinehealth!
+jdbcUrl = jdbc:mysql://localhost:3306/xine_health?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user = 
+password = 
 devMode = true
-oauth_redirect_uri=xinehealth.xinewang.com
+oauth_redirect_uri=
 
-#内网
-#jdbcUrl = jdbc:mysql://10.66.187.89:3306/xine_health?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
-#user = xine_health_user
-#password = xinehealth!
-#devMode = true
-#oauth_redirect_uri=xinehealth.xinewang.com
+
 
 # 微信服务器回调所用的 token
 token=xinehealth
 
-# 测试用的账号
-# 测试平台
-#appId=wx6080c31355b4073e
-#appSecret=5224a224c6912d26c0b6ade3247e8440
 
-#心e健康平台
-appId=wxdd00e7782b7a7890
-appSecret=f7e98d1d340a9018266864ae8f298585
+#微信平台
+appId=
+appSecret=
 
 
 #是否对消息进行加密，是否对消息进行加密，对应于微信平台的消息加解密方式，false支持明文模式及兼容模式，true支持安全模式及兼容模式
@@ -37,14 +28,14 @@ domain=http://wx.xinewang.com
 #bt_appKey=reIsOh2IClF65vtgdXn8
 
 #聪聪学英语
-bt_appId=20160726000025775
-bt_appKey=veXFO99XCAk8VF3RWRBc
+bt_appId=
+bt_appKey=
 
 
 #有道翻译 http://fanyi.youdao.com/openapi
 #http://fanyi.youdao.com/openapi.do?keyfrom=CongStudyEnglish&key=1494648756&type=data&doctype=json&version=1.1&q=apple
-keyfrom=CongStudyEnglish
-key=1494648756
+keyfrom=
+key=
 
 #百度http://apistore.baidu.com/
 apiKey=15ddfc1ab336ee0f095f14150d8e607d

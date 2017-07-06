@@ -101,9 +101,9 @@ public class CommonUtil {
 	}
 	
 	public static void uploadCardToOSS(String bucketName,String folder,String fileName,String path) {
-		String endpoint = "http://oss-cn-beijing.aliyuncs.com";
-		String accessKeyId = "OSYSQVLV6QzkhTFJ";
-		String accessKeySecret = "KetU8KIBQDyXHXTz25EFF5EUOmlTPT";
+		String endpoint = "*****";
+		String accessKeyId = "****";
+		String accessKeySecret = "****";
 		
 		String key = folder+"/" + fileName;
 		System.out.println("key:"+key);
